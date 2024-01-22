@@ -1,0 +1,19 @@
+{
+    "name": "lotfihadjsadok/raysel-multiple-pixels",
+    "description": "With this plugin you will be able to create multiple facebook pixels in one website.",
+    "autoload": {
+        "psr-4": {
+            "Inc\\": "inc/"
+        }
+    },
+    "authors": [
+        {
+            "name": "lotfi-hadjsadok",
+            "email": "lotfihadjsadok@gmail.com"
+        }
+    ],
+    "require": {
+        "facebook/php-business-sdk": "16.0.*",
+        "htmlburger/carbon-fields": "^3.6"
+    }
+}
