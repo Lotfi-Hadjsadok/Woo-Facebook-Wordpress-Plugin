@@ -3,6 +3,8 @@
  * Plugin Name: Woo Facebook Pixels & Messenger
  * Description: With this plugin you will be able to create multiple facebook pixels in one website and use the messenger chat functionality.
  * Author: L.Hadjsadok / Y.Bellouche
+ * Author URI: https://www.linkedin.com/in/lotfi-hadjsadok-6599571ba
+ * Version : 1.0.1
  */
 
 if ( ! ( defined( 'ABSPATH' ) ) ) {

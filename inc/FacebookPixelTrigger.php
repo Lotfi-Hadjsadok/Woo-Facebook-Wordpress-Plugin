@@ -63,13 +63,15 @@ class FacebookPixelTrigger {
 		$price      = $product->get_price();
 		$event_name = 'ViewContent';
 
-		( new FacebookCAPI( $pixel['pixel_id'], $pixel['conversion_token'], $pixel['conversion_tester'] ) )
+		if ( $pixel['conversion_token'] ) {
+			( new FacebookCAPI( $pixel['pixel_id'], $pixel['conversion_token'], $pixel['conversion_tester'] ) )
 			->set_user_data( array(), array() )
 			->set_content( $product_id, 1 )
 			->set_custom_data( $currency, $price )
 			->set_event( $event_name, $this->event_id )
 			->set_request()
 			->emit_event();
+		}
 
 		( new FacebookPixel( $pixel['pixel_id'] ) )->trigger_event(
 			$event_name,
@@ -107,19 +109,21 @@ class FacebookPixelTrigger {
 
 		$pixel_purchase_order_event_transient = $order_id . '_purchase_' . $pixel['pixel_id'] . '_triggered';
 		if ( ! $order
-        || get_transient($pixel_purchase_order_event_transient)
+		|| get_transient( $pixel_purchase_order_event_transient )
 		|| isset( $_COOKIE[ $pixel_purchase_product_event_cookie ] )
 		) {
 			return;
 		}
 
-		( new FacebookCAPI( $pixel['pixel_id'], $pixel['conversion_token'], $pixel['conversion_tester'] ) )
-		->set_user_data( array(), array() )
-		->set_content( $product_id, 1 )
-		->set_custom_data( $currency, $price )
-		->set_event( $event_name, $this->event_id )
-		->set_request()
-		->emit_event();
+		if ( $pixel['conversion_token'] ) {
+			( new FacebookCAPI( $pixel['pixel_id'], $pixel['conversion_token'], $pixel['conversion_tester'] ) )
+			->set_user_data( array(), array() )
+			->set_content( $product_id, 1 )
+			->set_custom_data( $currency, $price )
+			->set_event( $event_name, $this->event_id )
+			->set_request()
+			->emit_event();
+		}
 
 		( new FacebookPixel( $pixel['pixel_id'] ) )->trigger_event(
 			$event_name,
@@ -139,6 +143,6 @@ class FacebookPixelTrigger {
 
 		set_transient( $pixel_purchase_order_event_transient, true, $_60_minutes );
 		// Expire in 60 minutes to prevent duplicate purchase event of the same product.
-		setcookie( $pixel_purchase_product_event_cookie, true, $_60_minutes,'/' );
+		setcookie( $pixel_purchase_product_event_cookie, true, $_60_minutes, '/' );
 	}
 }
